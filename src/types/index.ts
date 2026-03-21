@@ -51,3 +51,94 @@ export interface UserProfile {
   xpTotal: number;
   currentStreak: number;
 }
+
+export interface Category {
+  id: string;
+  nameHr: string;
+  nameRu: string;
+  nameUk: string;
+  nameEn: string;
+  sortOrder: number;
+  isActive: boolean;
+}
+
+export interface WordSet {
+  id: string;
+  categoryId: string;
+  nameHr: string;
+  nameRu: string;
+  nameUk: string;
+  nameEn: string;
+  sortOrder: number;
+  isActive: boolean;
+  wordCount?: number;
+}
+
+export interface Word {
+  id: string;
+  wordSetId: string;
+  baseForm: string;
+  pluralForm?: string | null;
+  translationRu: string;
+  translationUk: string;
+  translationEn: string;
+  sentenceHr?: string | null;
+  sentenceBlankAnswer?: string | null;
+  wrongOptions?: string[] | null;
+  sortOrder: number;
+  exerciseConfigs: WordExerciseConfig[];
+}
+
+export interface WordExerciseConfig {
+  id: string;
+  wordId: string;
+  exerciseType: ExerciseType;
+}
+
+export interface CreateSessionRequest {
+  wordSetId: string;
+  exerciseType: ExerciseType;
+}
+
+export interface SessionWord {
+  wordId: string;
+  baseForm: string;
+  pluralForm?: string | null;
+  translationRu: string;
+  translationUk: string;
+  translationEn: string;
+}
+
+export interface SessionResponse {
+  id: string;
+  exerciseType: ExerciseType;
+  wordSetId: string;
+  status: SessionStatus;
+  words: SessionWord[];
+  totalQuestions: number;
+}
+
+export interface FinishSessionRequest {
+  answers: {
+    wordId: string;
+    givenAnswer: string;
+    isCorrect: boolean;
+  }[];
+}
+
+export interface FinishSessionResponse {
+  sessionId: string;
+  correctAnswers: number;
+  totalQuestions: number;
+  xpEarned: number;
+  newXpTotal: number;
+  currentStreak: number;
+  longestStreak: number;
+}
+
+export interface GamificationStats {
+  xpTotal: number;
+  currentStreak: number;
+  longestStreak: number;
+  lastPracticeDate?: string | null;
+}
