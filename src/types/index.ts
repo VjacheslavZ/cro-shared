@@ -10,7 +10,7 @@ export enum NativeLanguage {
 }
 
 export enum ExerciseType {
-  JEDNINA_MNOZINA = 'JEDNINA_MNOZINA',
+  TYPE_THE_ANSWER = 'TYPE_THE_ANSWER',
   FLASHCARDS = 'FLASHCARDS',
   FILL_IN_BLANK = 'FILL_IN_BLANK',
 }
@@ -95,7 +95,7 @@ export interface FillInBlankItem {
 }
 
 export type ExerciseItem =
-  | ({ type: ExerciseType.JEDNINA_MNOZINA } & SingularPluralItem)
+  | ({ type: ExerciseType.TYPE_THE_ANSWER } & SingularPluralItem)
   | ({ type: ExerciseType.FLASHCARDS } & FlashcardItem)
   | ({ type: ExerciseType.FILL_IN_BLANK } & FillInBlankItem);
 
