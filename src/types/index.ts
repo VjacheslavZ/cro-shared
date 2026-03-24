@@ -10,9 +10,8 @@ export enum NativeLanguage {
 }
 
 export enum ExerciseType {
-  JEDNINA_MNOZINA = 'JEDNINA_MNOZINA',
+  JEDNINA_MNOZINA = 'JEDNINA_MNOZINA', // TODO rename this ExerciseType it will be TYPE_THE_ANSWER and update UI and backend
   FLASHCARDS = 'FLASHCARDS',
-  MULTIPLE_CHOICE = 'MULTIPLE_CHOICE',
   FILL_IN_BLANK = 'FILL_IN_BLANK',
 }
 
@@ -52,7 +51,7 @@ export interface UserProfile {
   currentStreak: number;
 }
 
-export interface Category {
+export interface ExerciseTopic {
   id: string;
   nameHr: string;
   nameRu: string;
@@ -60,67 +59,63 @@ export interface Category {
   nameEn: string;
   sortOrder: number;
   isActive: boolean;
+  exerciseTypes: ExerciseType[];
 }
 
-export interface WordSet {
+export interface SingularPluralItem {
   id: string;
-  categoryId: string;
-  nameHr: string;
-  nameRu: string;
-  nameUk: string;
-  nameEn: string;
-  sortOrder: number;
-  isActive: boolean;
-  wordCount?: number;
-}
-
-export interface Word {
-  id: string;
-  wordSetId: string;
+  topicId: string;
   baseForm: string;
-  pluralForm?: string | null;
+  pluralForm: string;
   translationRu: string;
   translationUk: string;
   translationEn: string;
-  sentenceHr?: string | null;
-  sentenceBlankAnswer?: string | null;
-  wrongOptions?: string[] | null;
   sortOrder: number;
-  exerciseConfigs: WordExerciseConfig[];
 }
 
-export interface WordExerciseConfig {
+export interface FlashcardItem {
   id: string;
-  wordId: string;
-  exerciseType: ExerciseType;
+  topicId: string;
+  frontText: string;
+  translationRu: string;
+  translationUk: string;
+  translationEn: string;
+  sortOrder: number;
 }
+
+export interface FillInBlankItem {
+  id: string;
+  topicId: string;
+  sentenceHr: string;
+  blankAnswer: string;
+  translationRu: string;
+  translationUk: string;
+  translationEn: string;
+  sortOrder: number;
+}
+
+export type ExerciseItem =
+  | ({ type: ExerciseType.JEDNINA_MNOZINA } & SingularPluralItem)
+  | ({ type: ExerciseType.FLASHCARDS } & FlashcardItem)
+  | ({ type: ExerciseType.FILL_IN_BLANK } & FillInBlankItem);
 
 export interface CreateSessionRequest {
-  wordSetId: string;
+  topicId: string;
   exerciseType: ExerciseType;
-}
-
-export interface SessionWord {
-  wordId: string;
-  baseForm: string;
-  pluralForm?: string | null;
-  translationRu: string;
-  translationUk: string;
-  translationEn: string;
 }
 
 export interface SessionResponse {
   id: string;
   exerciseType: ExerciseType;
-  wordSetId: string;
+  topicId: string;
   status: SessionStatus;
-  words: SessionWord[];
+  items: ExerciseItem[];
   totalQuestions: number;
 }
 
 export interface FinishSessionRequest {
   answers: {
-    wordId: string;
+    itemId: string;
     givenAnswer: string;
     isCorrect: boolean;
   }[];
@@ -134,6 +129,11 @@ export interface FinishSessionResponse {
   newXpTotal: number;
   currentStreak: number;
   longestStreak: number;
+}
+
+export interface ResetCycleRequest {
+  topicId: string;
+  exerciseType: ExerciseType;
 }
 
 export interface GamificationStats {
