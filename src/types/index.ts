@@ -60,7 +60,10 @@ export interface ExerciseTopic {
   sortOrder: number;
   isActive: boolean;
   exerciseTypes: ExerciseType[];
-  rulesHtml: string | null;
+  rulesHtmlHr: string | null;
+  rulesHtmlRu: string | null;
+  rulesHtmlUk: string | null;
+  rulesHtmlEn: string | null;
 }
 
 export interface SingularPluralItem {
@@ -112,7 +115,10 @@ export interface SessionResponse {
   status: SessionStatus;
   items: ExerciseItem[];
   totalQuestions: number;
-  rulesHtml: string | null;
+  rulesHtmlHr: string | null;
+  rulesHtmlRu: string | null;
+  rulesHtmlUk: string | null;
+  rulesHtmlEn: string | null;
 }
 
 export interface FinishSessionRequest {
